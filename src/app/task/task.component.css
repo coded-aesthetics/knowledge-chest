@@ -1,0 +1,9 @@
+.task {
+  padding:10px;
+  margin-top:5px;
+  margin-bottom:5px;
+  border:1px solid lightgrey;
+}
+.task.highlight {
+  background-color: #ff0000;
+}

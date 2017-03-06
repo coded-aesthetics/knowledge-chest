@@ -1,1 +1,96 @@
 /* You can add global styles to this file, and also import other style files */
+.clearfix:after {
+  content: ".";
+  clear: both;
+  display: block;
+  visibility: hidden;
+  height: 0px;
+}
+
+body .knowledge-chest {
+  font-family: 'Roboto', sans-serif;
+  color: #474747;
+}
+
+body .knowledge-chest .delete-cross {
+  font-family: sans-serif;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float:right;
+}
+
+.ib {
+  display:inline-block;
+}
+
+.col.p0 {
+  padding:0;
+}
+
+/* TODO: this is hacky!! */
+.project-detail-page .skill-section .skill-list {
+  height: calc(100vh - 66px);
+}
+
+.knowledge-chest .panel-default>.panel-heading{
+  background-color:#fdfdfd;
+}
+
+.knowledge-chest p {
+  margin:0;
+}
+
+.knowledge-chest .panel-heading {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.knowledge-chest .panel-group .panel {
+  border-radius: 0;
+  margin-bottom: 5px;
+}
+
+.calendar .cal-month-view .cal-cell-top {
+  min-height: 15px;
+  line-height:1;
+  font-size:14px;
+  width:70px;
+  text-align: right;
+}
+
+.calendar .cal-month-view .cal-events {
+  min-height: 15px;
+  color: red;
+  line-height:1;
+  font-size:10px;
+  width:calc(100% - 70px);
+}
+.calendar .cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  font-size:1em;
+  margin:5px;
+}
+
+.calendar .cal-month-view .cal-day-cell .cal-day-number {
+  font-size:1em;
+  margin:5px;
+}
+
+.calendar .cal-month-view .cal-day-cell {
+  min-height:30px;
+}
+
+.calendar .cal-month-view .cal-day-badge {
+  margin:0;
+  margin-left:5px;
+  margin-top:5px;
+  text-align:right;
+}
+
+.calendar .cal-month-view .cal-cell {
+  flex-direction: row-reverse;
+}

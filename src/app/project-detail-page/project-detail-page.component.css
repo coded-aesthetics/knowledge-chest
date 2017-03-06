@@ -1,0 +1,10 @@
+.project-detail-section {
+  width:80%;
+  float:left;
+}
+
+.skill-section {
+  width:20%;
+  float:left;
+  vertical-align: top;
+}

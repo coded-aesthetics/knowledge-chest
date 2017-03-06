@@ -1,0 +1,7 @@
+.calendar {
+  border-top:2px solid lightgrey;
+}
+.calendar .cal-month-view .cal-cell-top {
+  min-height: 20px;
+  color: red;
+}

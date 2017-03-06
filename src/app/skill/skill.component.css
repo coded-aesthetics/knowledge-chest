@@ -1,0 +1,14 @@
+.skill {
+  padding:5px;
+  margin:5px;
+  border:1px solid lightgray;
+}
+.skill.highlight {
+  background-color: #e0e0e8;
+}
+.skill__color {
+  width:calc(10% - 5px);
+}
+.skill__name {
+  width:calc(90% - 5px);
+}

@@ -1,0 +1,6 @@
+<div class="task" [ngStyle]="{'background-color':highlightColor}">
+  {{task.name}} <span class="delete-cross" (click)="deleteTask()">&times;</span>
+  <span (click)="openLogModal()">Log</span>
+  <span (click)="openArticleModal()">Art</span>
+  <app-log-time-modal [skills]="skills" (modalSubmit)="modalSubmitted($event)" (onHide)="modalHidden()" (onShow)="modalShow()" *ngIf="showModal"></app-log-time-modal>
+</div>

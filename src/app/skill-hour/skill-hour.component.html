@@ -1,0 +1,20 @@
+<div class="col-xs-12  col p0">
+  <div class="ib col-xs-6 col p0">
+    <div class="col-xs-2 ib col p0">
+      <label >Skill:</label>
+    </div>
+    <div class="col-xs-10 ib col p0">
+      <input
+        [(ngModel)]="skill"
+        [typeahead]="skills"
+        typeaheadOptionField="name"
+        class="form-control"
+        (typeaheadOnSelect)="skillSelected($event)"
+        name="skill">
+    </div>
+  </div>
+  <div class="ib col-xs-6">
+    <label >Hours: </label>
+    <input type="number" id="hours" [(ngModel)]="skillHour.hours" name="hours">
+  </div>
+</div>

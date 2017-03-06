@@ -1,0 +1,29 @@
+<div (onHidden)="onHidden()" bsModal  #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Compose Article</h4>
+        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-xs-12 article-headline">
+          <input type="text" [(ngModel)]="headline" placeholder="Headline">
+        </div>
+        <div class="assign-skills clearfix">
+          <form autocomplete="off">
+          <div class="col-xs-4" *ngFor="let associatedSkill of associatedSkills">
+            <app-associate-skill-input [skills]="skills" [associatedSkill]="associatedSkill"></app-associate-skill-input>
+          </div>
+          </form>
+          <div class="col-xs-12">
+            <span (click)="addAssociatedSkill()">+</span>
+          </div>
+        </div>
+        <quill-editor (onContentChanged)="onContentChanged($event)"></quill-editor>
+        <button (click)="onSubmit()">Save Article</button>
+      </div>
+    </div>
+  </div>
+</div>

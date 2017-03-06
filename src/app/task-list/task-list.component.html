@@ -1,0 +1,14 @@
+<div class="task-list">
+  <div class="task-list__add-project ib">
+    <div class="add-task__input ib">
+      <input [(ngModel)]="newTaskName" type="text">
+    </div>
+    <div class="add-task__button ib">
+      <button (click)="addTask()">+</button>
+    </div>
+  </div>
+  <div *ngFor="let task of tasks">
+    <app-task (openArticleModalEE)="openArticleModal($event)" (deleteTaskEE)="deleteTask($event)" [task]="task"></app-task>
+  </div>
+</div>
+

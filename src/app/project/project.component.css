@@ -1,0 +1,21 @@
+.project-header {
+  background-color:lightskyblue;
+  color:dimgray;
+  text-align: center;
+  padding:10px;
+  font-size:20px;
+  font-weight:400;
+  font-family: 'EB Garamond', serif;
+}
+
+.project-header a {
+  color:dimgray;
+}
+
+.project-header a:hover {
+  color:white;
+}
+
+.project-header .project-header__delete {
+  font-family:sans-serif;
+}

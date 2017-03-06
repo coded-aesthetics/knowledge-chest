@@ -1,0 +1,22 @@
+.skill-list-headline {
+  padding: 5px;
+  padding-bottom:7px;
+}
+
+.skill-list-headline__headline {
+  font-size: 22px;
+  font-family: serif;
+}
+
+.skill-list-container {
+  padding-top: 3px;
+}
+.skill-list {
+  border-top:2px solid lightgray;
+  height: calc(100vh - 255px);
+  overflow-y:scroll;
+  -webkit-box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.20);
+  -moz-box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.20);
+  box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.20);
+  padding-top:3px;
+}

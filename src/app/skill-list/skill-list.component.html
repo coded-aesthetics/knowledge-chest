@@ -1,0 +1,18 @@
+<div class="skill-list-container">
+  <div class="skill-list-headline">
+    <div class="skill-list-headline__headline ib">Skills</div>
+    <div class="skill-list-headline__add-project ib">
+      <div class="add-skill__input ib">
+        <input [(ngModel)]="newSkillName" type="text">
+      </div>
+      <div class="add-skill__button ib">
+        <button (click)="addSkill()">+</button>
+      </div>
+    </div>
+  </div>
+  <div class="skill-list">
+    <div *ngFor="let skill of skills">
+      <app-skill (onDelete)="deleteSkill($event)" [skill]="skill"></app-skill>
+    </div>
+  </div>
+</div>

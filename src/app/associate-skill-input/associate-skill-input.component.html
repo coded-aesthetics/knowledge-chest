@@ -1,0 +1,10 @@
+<div class="associate-skill-input">
+  <input
+    placeholder="Skillname"
+    [(ngModel)]="skill"
+    [typeahead]="skills"
+    typeaheadOptionField="name"
+    class="form-control"
+    (typeaheadOnSelect)="skillSelected($event)"
+    name="skill">
+</div>

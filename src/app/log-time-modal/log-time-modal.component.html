@@ -1,0 +1,35 @@
+<div (onHidden)="onHidden()" bsModal  #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Log time</h4>
+        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="onSubmit($event)">
+          <div class="form-group col-xs-12">
+            <label for="description">Description</label>
+            <input type="text" id="description" [(ngModel)]="workPaket.description" name="description">
+          </div>
+          <!--div class="form-group col-xs-6">
+            <label for="start-date">Start date</label>
+            <datepicker id="start-date" [(ngModel)]="workPaket.start" [showWeeks]="true" name="startDate"></datepicker>
+          </div-->
+          <div class="form-group col-xs-12">
+            <label for="end-date">End date</label>
+            <datepicker id="end-date" [(ngModel)]="workPaket.date" [showWeeks]="true" name="endDate"></datepicker>
+          </div>
+          <div class="form-group col-xs-12">
+            <div *ngFor="let skillHour of workPaket._embedded.skillHours">
+              <app-skill-hour [skills]="skills" [skillHour]="skillHour"></app-skill-hour>
+            </div>
+            <span (click)="addSkillHour()">+</span>
+          </div>
+          <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="project-list-headline">
+  <div class="project-list-headline__headline ib">Projects</div>
+  <div class="project-list-headline__add-project ib">
+    <div class="add-project__input ib">
+      <input [(ngModel)]="addProjectName" type="text">
+    </div>
+    <div class="add-project__button ib">
+      <button (click)="addProject()">+</button>
+    </div>
+  </div>
+</div>
+<div class="project-list-container">
+  <div *ngFor="let project of projects" class="project-container">
+    <app-project (projectDeleted)="projectDeleted($event)" (taskDeleted)="taskDeleted($event)" (taskAdded)="taskAdded($event)" [project]="project"></app-project>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="article-list">
+  <accordion >
+    <!--accordion-group #group>
+      <div accordion-heading>
+        I can have markup, too!
+        <i class="pull-right float-xs-right glyphicon"
+           [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+      </div>
+      This is just some content to illustrate fancy headings.
+    </accordion-group-->
+    <accordion-group #group *ngFor="let article of articles" class="article-list__article">
+      <div accordion-heading>
+        <span class="article-headline__title">{{article.headline}}</span>
+        <span class="article-headline__date">- {{formatDate(article.date)}}</span>
+      </div>
+      <div [innerHTML]="article.text"></div>
+    </accordion-group>
+  </accordion>
+</div>
