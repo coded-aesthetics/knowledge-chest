@@ -32,7 +32,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.openArticleModalEE.emit(this.task);
   }
 
-  highlightColor = '#ffffff';
+  highlightColor = null;
 
   constructor(private skillService:SkillService, private taskService:TaskService, private workPaketService:WorkPaketService) {
     this.subscription = skillService.newSkillsAvailable$.subscribe(
@@ -42,7 +42,7 @@ export class TaskComponent implements OnInit, OnDestroy {
       });
     this.taskSubscription = taskService.newHighlightTasksAvailable$.subscribe(
       (highlightTasks) => {
-        this.highlightColor = '#ffffff';
+        this.highlightColor = null;
         for (let task of highlightTasks.tasks) {
           if (task.id == this.task.id) {
             this.highlightColor = highlightTasks.color;
@@ -85,6 +85,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.workPaketService.addWorkPaket(this.task, workPaket).subscribe(
       (data) => {
         console.log("went", JSON.parse(data._body));
+        console.log("workpaket", workPaket);
         let wp:Workpaket = new Workpaket(JSON.parse(data._body));
         let skillHours = workPaket.getEmbedded("skillHours");
         var numChecked:number = 0;

@@ -35,8 +35,6 @@ export class LogTimeModalComponent implements OnInit, AfterViewInit {
 
   private skill:Skill = new Skill({});
 
-
-
   constructor() {
   }
 

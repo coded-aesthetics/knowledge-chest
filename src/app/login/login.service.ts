@@ -21,11 +21,14 @@ export class LoginService {
     }
 
     let headers      = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }); // ... Set content type to JSON
-    let options       = new RequestOptions({ headers: headers }); // Create a request option
+    let options       = new RequestOptions({ headers: headers , withCredentials: true}); // Create a request option
 
     return this.http.post("http://localhost:8081/login", params, options) // ...using post request
-      .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
-      .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      .map((res:Response) => "") // ...and calling .json() on the response to return data
+      .catch((error:any) => {
+        console.log(error);
+        return Observable.throw(error || 'Server error');
+      });
   }
 
 }

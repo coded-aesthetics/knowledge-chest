@@ -1,11 +1,12 @@
 .skill-list-headline {
   padding: 5px;
   padding-bottom:7px;
+  margin-right: 10px;
 }
 
 .skill-list-headline__headline {
   font-size: 22px;
-  font-family: serif;
+  font-family: 'EB Garamond', serif;
 }
 
 .skill-list-container {

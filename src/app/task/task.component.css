@@ -3,7 +3,17 @@
   margin-top:5px;
   margin-bottom:5px;
   border:1px solid lightgrey;
+  transition:.1s;
 }
+.task:hover {
+  background-color: #f0f0fe;
+}
+
+.function-icon {
+  padding-left:4px;
+  color: #6e6e6e;
+}
+
 .task.highlight {
   background-color: #ff0000;
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, Input, AfterViewInit, EventEmitter, ViewChild} from '@angular/core';
+import {Component, OnInit, Output, Input, AfterViewInit, EventEmitter, ViewChild, OnChanges} from '@angular/core';
 import {Skill} from "app/domain/skill";
 import {ModalDirective} from "ng2-bootstrap";
 import {Article} from "app/domain/article";
@@ -8,13 +8,15 @@ import {Article} from "app/domain/article";
   templateUrl: './compose-article-modal.component.html',
   styleUrls: ['./compose-article-modal.component.css']
 })
-export class ComposeArticleModalComponent implements OnInit,AfterViewInit {
+export class ComposeArticleModalComponent implements OnInit,AfterViewInit,OnChanges {
 
   @ViewChild('lgModal') lgModal:ModalDirective;
   @Output() onShow = new EventEmitter<any>();
   @Output() onHide = new EventEmitter<any>();
   //TODO: change to article
   @Output() modalSubmit = new EventEmitter<Article>();
+
+  @Input() article:Article;
 
   @Input() skills:Skill[];
 
@@ -46,6 +48,23 @@ export class ComposeArticleModalComponent implements OnInit,AfterViewInit {
     this.associatedSkills.push({skill:null});
   }
 
+  ngOnChanges() {
+    this.headline = "";
+    this.htmlContent = "";
+    this.associatedSkills = [{skill:null}];
+    this.date = new Date();
+    console.log("gnOnChanges", this.article);
+    if (this.article) {
+      this.headline = this.article.headline;
+      this.htmlContent = this.article.text;
+      this.associatedSkills = [];
+      for (let skill of this.article.getEmbedded("skills")) {
+        this.associatedSkills.push({skill});
+      }
+      this.date = this.article.date;
+    }
+  }
+
   ngOnInit() {
 
     /*this.skillService.fetchSkills().subscribe(
@@ -60,6 +79,13 @@ export class ComposeArticleModalComponent implements OnInit,AfterViewInit {
       articleObj._embedded.skills.push(as.skill);
     }
     let article:Article = new Article(articleObj);
+    if (this.article) {
+      if (!article._links) {
+        article._links = {};
+      }
+      article._links.self = this.article._links.self;
+      article._embedded.task = this.article._embedded.task;
+    }
     this.modalSubmit.emit(article);
     this.lgModal.hide();
   }

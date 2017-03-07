@@ -25,6 +25,11 @@ export class AssociateSkillInputComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if (this.associatedSkill) {
+      if (this.associatedSkill.skill) {
+        this.skill = this.associatedSkill.skill.name;
+      }
+    }
   }
 
   skillSelected(name:string) {

@@ -31,7 +31,7 @@ export class SkillService {
   }
 
   fetchSkillIdsByProject(project:Project): Observable<number[]> {
-    return this.http.get("http://localhost:8081/getSkillIdsByProject?projectId="+project.id)
+    return this.http.get("http://localhost:8081/getSkillIdsByProject?projectId="+project.id,{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         this.newHighlightSkillsAvailableSource.next(d);
@@ -41,7 +41,7 @@ export class SkillService {
   }
 
   fetchSkills(): Observable<Hal> {
-    return this.http.get("http://localhost:8081/skills")
+    return this.http.get("http://localhost:8081/skills",{ withCredentials: true })
       .map((data) => {
         var d = data.json();
         if (d._embedded) {
@@ -64,7 +64,7 @@ export class SkillService {
 
   addSkill(skill:any): Observable<any> {
     var h:Headers = new Headers({"Content-Type":'application/json'});
-    var options:RequestOptions = new RequestOptions( { headers: h } );
+    var options:RequestOptions = new RequestOptions( { headers: h, withCredentials: true } );
     var color = (Math.round(Math.random() * 0xFFFFFF)).toString(16);
     while(color.length < 6) {
       color = '0' + color;
@@ -82,7 +82,7 @@ export class SkillService {
   }
 
   deleteSkill(skill:Skill): Observable<any> {
-    return this.http.delete(skill.getLinkHref()).do(
+    return this.http.delete(skill.getLinkHref(),{ withCredentials: true }).do(
         (data) => {
           this.fetchSkills().subscribe();
         }

@@ -1,5 +1,5 @@
 <div class="article-list">
-  <accordion >
+  <accordion>
     <!--accordion-group #group>
       <div accordion-heading>
         I can have markup, too!
@@ -12,8 +12,10 @@
       <div accordion-heading>
         <span class="article-headline__title">{{article.headline}}</span>
         <span class="article-headline__date">- {{formatDate(article.date)}}</span>
+        <span class="function-icon glyphicon glyphicon-trash fr" (click)="deleteArticle(article)"></span>
+        <span class="function-icon edit-pen glyphicon glyphicon-pencil fr" (click)="editArticle(article)"></span>
       </div>
-      <div [innerHTML]="article.text"></div>
+      <div class="ql-editor" [innerHTML]="article.text"></div>
     </accordion-group>
   </accordion>
 </div>

@@ -30,5 +30,7 @@
 
 .project-list-headline__headline {
   font-size: 22px;
-  font-family: serif;
+  font-family: 'EB Garamond', serif;
+  margin-left: 10px;
+  margin-right: 14px;
 }

@@ -38,6 +38,7 @@ import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleComponent } from './article/article.component';
 import { ProjectDetailPageComponent } from './project-detail-page/project-detail-page.component';
 import { ProjectInfoComponent } from './project-info/project-info.component';
+import { SafeStylePipe } from './safe-style.pipe';
 
 const appRoutes: Routes = [
   { path: 'login',    component: LoginComponent },
@@ -65,7 +66,8 @@ const appRoutes: Routes = [
     ArticleListComponent,
     ArticleComponent,
     ProjectDetailPageComponent,
-    ProjectInfoComponent
+    ProjectInfoComponent,
+    SafeStylePipe
   ],
   imports: [
     CalendarModule.forRoot(),

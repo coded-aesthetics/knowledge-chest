@@ -21,7 +21,7 @@
             <span (click)="addAssociatedSkill()">+</span>
           </div>
         </div>
-        <quill-editor (onContentChanged)="onContentChanged($event)"></quill-editor>
+        <quill-editor (onContentChanged)="onContentChanged($event)" [(ngModel)]="htmlContent"></quill-editor>
         <button (click)="onSubmit()">Save Article</button>
       </div>
     </div>

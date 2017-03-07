@@ -1,20 +1,26 @@
 <div class="project-info">
   <div class="project-info-headline">
+    <img src="/assets/brainfart-logo-black-small.png" alt="">
     <div class="project-info-headline__headline ib">Project Detail - {{project.name}}</div>
     <div class="project-info-headline__buttons ib">
       <a routerLink="/projects">Back to Project Overview</a>
     </div>
   </div>
   <div class="project-info-container">
-    <div class="project-detail__articles ib col-xs-9">
+    <div class="project-detail__articles ib">
       <div class="project-detail__articles-headline">Articles</div>
-      <app-article-list [articles]="articles"></app-article-list>
+      <app-article-list (editArticleEE)="openEditArticleModal($event)" (articleDeleted)="articleDeleted()" [articles]="articles"></app-article-list>
     </div>
-    <div class="project-detail__tasks ib col-xs-3">
+    <div class="project-detail__tasks ib">
       <div class="project-detail__tasks-headline">Tasks</div>
       <app-task-list (openArticleModalEE)="openArticleModal($event)" (deleteTaskEE)="deleteTask($event)" (addTaskEE)="addNewTask($event)" [tasks]="project.getEmbedded('tasks')"></app-task-list>
     </div>
   </div>
 </div>
-<app-compose-article-modal [skills]="skills" (modalSubmit)="articleModalSubmitted($event)" (onHide)="articleModalHidden()" (onShow)="articleModalShow()" *ngIf="showArticleModal"></app-compose-article-modal>
+<app-compose-article-modal
+  [article]="editArticle"
+  [skills]="skills"
+  (modalSubmit)="articleModalSubmitted($event)"
+  (onHide)="articleModalHidden()"
+  (onShow)="articleModalShow()" *ngIf="showArticleModal"></app-compose-article-modal>
 

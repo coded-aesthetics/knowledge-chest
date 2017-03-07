@@ -25,7 +25,7 @@ export class TaskService {
   }
 
   fetchTasksBySkill(skill:Skill):Observable<Task[]> {
-    return this.http.get("http://localhost:8081/tasks/search/findAllBySkillId?skillId=" + skill.id)
+    return this.http.get("http://localhost:8081/tasks/search/findAllBySkillId?skillId=" + skill.id,{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         if (d._embedded) {
@@ -44,7 +44,7 @@ export class TaskService {
   }
 
   fetchTasks(): Observable<Hal> {
-    return this.http.get("http://localhost:8081/tasks")
+    return this.http.get("http://localhost:8081/tasks",{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         if (d._embedded) {
@@ -60,13 +60,13 @@ export class TaskService {
   }
 
   deleteTask(task:Task): Observable<any> {
-    return this.http.delete(task.getLinkHref("self", true))
+    return this.http.delete(task.getLinkHref("self", true),{ withCredentials: true })
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   addTask(project:Project, task:any): Observable<any> {
     var h:Headers = new Headers({"Content-Type":'application/json'});
-    var options:RequestOptions = new RequestOptions( { headers: h } );
+    var options:RequestOptions = new RequestOptions( { headers: h, withCredentials: true } );
     let t = {name:task.name,done:false,project:project.getLinkHref("self")};
     return this.http.post("http://localhost:8081/tasks", JSON.stringify(t), options)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));

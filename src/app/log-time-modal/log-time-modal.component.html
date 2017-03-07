@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form (ngSubmit)="onSubmit($event)">
+        <form (ngSubmit)="onSubmit($event)" autocomplete="off">
           <div class="form-group col-xs-12">
             <label for="description">Description</label>
             <input type="text" id="description" [(ngModel)]="workPaket.description" name="description">

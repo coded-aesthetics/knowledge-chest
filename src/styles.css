@@ -8,7 +8,7 @@
 }
 
 body .knowledge-chest {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #474747;
 }
 
@@ -24,6 +24,10 @@ body .knowledge-chest .delete-cross {
   float:right;
 }
 
+.cp {
+  cursor: pointer;
+}
+
 .ib {
   display:inline-block;
 }
@@ -37,8 +41,13 @@ body .knowledge-chest .delete-cross {
   height: calc(100vh - 66px);
 }
 
+.knowledge-chest .modal-content {
+ border-radius: 0;
+}
+
 .knowledge-chest .panel-default>.panel-heading{
   background-color:#fdfdfd;
+  transition:.1s;
 }
 
 .knowledge-chest p {
@@ -53,6 +62,10 @@ body .knowledge-chest .delete-cross {
 .knowledge-chest .panel-group .panel {
   border-radius: 0;
   margin-bottom: 5px;
+}
+
+.knowledge-chest .panel-default>.panel-heading:hover {
+  background-color: #f0f0fe;
 }
 
 .calendar .cal-month-view .cal-cell-top {

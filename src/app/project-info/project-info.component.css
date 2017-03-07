@@ -26,11 +26,24 @@
 .project-detail__articles-headline, .project-detail__tasks-headline {
   font-size: 18px;
   padding: 5px;
+  font-weight: 700;
+}
+
+.project-detail__articles {
+  width: calc(100% - 250px);
+  padding:0 10px;
+}
+
+.project-detail__tasks {
+  width: 250px;
+  padding:0 10px;
 }
 
 .project-info-headline__headline {
   font-size: 22px;
-  font-family: serif;
+  font-family: 'EB Garamond', serif;
+  padding-left: 10px;
+  padding-right: 14px;
 }
 
 .project-info-headline {
