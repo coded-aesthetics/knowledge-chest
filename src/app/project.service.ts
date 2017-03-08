@@ -5,8 +5,7 @@ import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Project } from './domain/project';
 import { Observable } from 'rxjs/Rx';
 import {Hal} from "app/domain/hal";
-import {Task} from "app/domain/task";
-import {Skill} from "app/domain/skill";
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class ProjectService {
@@ -14,7 +13,7 @@ export class ProjectService {
   constructor(private http:Http) { }
 
   getProjects(): Observable<Hal> {
-    return this.http.get("http://localhost:8081/projects",{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/projects",{ withCredentials: true })
              .map( (data) => {
                var d = data.json();
                if (d._embedded) {
@@ -29,8 +28,24 @@ export class ProjectService {
              .catch((error:any) => Observable.throw(error || 'Server error'));
   }
 
+  fetchProjectsBySkillId(id:number): Observable<Hal> {
+    return this.http.get(environment.serverRoot+"/projects/search/findAllBySkillId?skillId=" + id,{ withCredentials: true })
+      .map( (data) => {
+        var d = data.json();
+        if (d._embedded) {
+          if (d._embedded.projects) {
+            d._embedded.projects = d._embedded.projects.map((p) => {
+              return new Project(p);
+            });
+          }
+        }
+        return new Hal(d);
+      })
+      .catch((error:any) => Observable.throw(error || 'Server error'));
+  }
+
   getProject(id:number): Observable<Project> {
-    return this.http.get("http://localhost:8081/projects/" + id,{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/projects/" + id,{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         return new Project(d);
@@ -41,7 +56,7 @@ export class ProjectService {
   addProject(project:any): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.post("http://localhost:8081/projects", JSON.stringify(project), options)
+    return this.http.post(environment.serverRoot+"/projects", JSON.stringify(project), options)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 

@@ -6,6 +6,8 @@ import {Task} from "app/domain/task";
 import {Project} from "app/domain/project";
 import {Workpaket} from "app/domain/workpaket";
 import {Hal} from "app/domain/hal";
+import {Skill} from "app/domain/skill";
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class ArticleService {
@@ -14,7 +16,7 @@ export class ArticleService {
   }
 
   fetchArticles(): Observable<Hal> {
-    return this.http.get("http://localhost:8081/articles",{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/articles",{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         if (d._embedded) {
@@ -30,7 +32,7 @@ export class ArticleService {
   }
 
   fetchArticlesByProject(project:Project):Observable<Hal> {
-    return this.http.get("http://localhost:8081/articles/search/findAllByProjectId?projectId="+project.id,{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/articles/search/findAllByProjectId?projectId="+project.id,{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         if (d._embedded) {
@@ -43,7 +45,22 @@ export class ArticleService {
         return new Hal(d);
       })
       .catch((error:any) => Observable.throw(error || 'Server error'));
+  }
 
+  fetchArticlesBySkill(skill:Skill):Observable<Hal> {
+    return this.http.get(environment.serverRoot+"/articles/search/findAllBySkillId?skillId="+skill.id,{ withCredentials: true })
+      .map( (data) => {
+        var d = data.json();
+        if (d._embedded) {
+          if (d._embedded.articles) {
+            d._embedded.articles = d._embedded.articles.map((a) => {
+              return new Article(a);
+            });
+          }
+        }
+        return new Hal(d);
+      })
+      .catch((error:any) => Observable.throw(error || 'Server error'));
   }
 
   deleteArticle(article:Article): Observable<any> {
@@ -62,7 +79,7 @@ export class ArticleService {
         }
       }
     }
-    this.http.put("http://localhost:8081/articles/6/skills", JSON.stringify(skillHrefs), options)
+    this.http.put(environment.serverRoot+"/articles/6/skills", JSON.stringify(skillHrefs), options)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error')).subscribe();
     let a = {headline:article.headline,text:article.text,date:new Date(),skills:skillHrefs,task:null,project:null,workPaket:null};
     return this.http.put(article.getLinkHref(), JSON.stringify(a), options)
@@ -99,7 +116,7 @@ export class ArticleService {
     if (a.project == null) {
       delete a.project;
     }
-    return this.http.post("http://localhost:8081/articles", JSON.stringify(a), options)
+    return this.http.post(environment.serverRoot+"/articles", JSON.stringify(a), options)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 

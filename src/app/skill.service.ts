@@ -5,6 +5,7 @@ import { Skill } from './domain/skill';
 import {Observable, Subject} from 'rxjs/Rx';
 import { Hal } from "app/domain/hal";
 import {Project} from "app/domain/project";
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class SkillService {
@@ -31,7 +32,7 @@ export class SkillService {
   }
 
   fetchSkillIdsByProject(project:Project): Observable<number[]> {
-    return this.http.get("http://localhost:8081/getSkillIdsByProject?projectId="+project.id,{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/getSkillIdsByProject?projectId="+project.id,{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         this.newHighlightSkillsAvailableSource.next(d);
@@ -41,7 +42,7 @@ export class SkillService {
   }
 
   fetchSkills(): Observable<Hal> {
-    return this.http.get("http://localhost:8081/skills",{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/skills",{ withCredentials: true })
       .map((data) => {
         var d = data.json();
         if (d._embedded) {
@@ -62,6 +63,17 @@ export class SkillService {
       });
   }
 
+  fetchSkillById(id:number):Observable<Skill> {
+    return this.http.get(environment.serverRoot+"/skills/"+id,{ withCredentials: true })
+      .map((data) => {
+        var d = data.json();
+        return new Skill(d);
+      })
+      .catch((error: any) => {
+        return Observable.throw(error.json().error || 'Server error');
+      });
+  }
+
   addSkill(skill:any): Observable<any> {
     var h:Headers = new Headers({"Content-Type":'application/json'});
     var options:RequestOptions = new RequestOptions( { headers: h, withCredentials: true } );
@@ -71,7 +83,7 @@ export class SkillService {
     }
     color = '#' + color;
     skill.color = color;
-    var obs:Observable<any> = this.http.post("http://localhost:8081/skills", JSON.stringify(skill), options).do(
+    var obs:Observable<any> = this.http.post(environment.serverRoot+"/skills", JSON.stringify(skill), options).do(
         (data) => {
           this.fetchSkills().subscribe();
         }
@@ -91,14 +103,11 @@ export class SkillService {
   }
 
   findCachedSkillByHref(href:string) {
-    console.log(this.skills, href);
     if (!this.skills) {
       return null;
     }
     for (let skill of this.skills) {
-      console.log("gothere");
       if (skill.getLinkHref("self") == href) {
-        console.log("returned", skill);
         return skill;
       }
     }

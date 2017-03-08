@@ -1,0 +1,10 @@
+.skill-detail-section {
+  width: 70%;
+  float:left;
+}
+
+.project-section {
+  width:30%;
+  float:left;
+  height:calc(100vh - 70px);
+}

@@ -1,0 +1,15 @@
+<div class="skill-info">
+  <div class="skill-info-headline">
+    <img src="/assets/brainfart-logo-black-small.png" alt="">
+    <div class="skill-info-headline__headline ib">Skill Detail - {{skill.name}}</div>
+    <div class="skill-info-headline__buttons ib">
+      <a routerLink="/projects">Back to Project Overview</a>
+    </div>
+  </div>
+  <div class="skill-info-container">
+    <div class="skill-detail__articles ib">
+      <div class="skill-detail__articles-headline">Articles</div>
+      <app-article-list (editArticleEE)="openEditArticleModal($event)" (articleDeleted)="articleDeleted()" [articles]="articles"></app-article-list>
+    </div>
+  </div>
+</div>

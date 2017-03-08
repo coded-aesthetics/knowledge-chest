@@ -16,6 +16,7 @@ export class ArticleComponent extends OnInit {
 
   ngOnInit() {
     this.dataContainer.nativeElement.innerHTML = this.article.text;
+    console.log(this.article);
   }
 
   formatDate(date:Date):string {

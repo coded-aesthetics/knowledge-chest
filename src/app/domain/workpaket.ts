@@ -4,7 +4,8 @@ export class Workpaket extends Hal {
 
   public description:string;
 
-  public date:Date;
+  public endDate:Date;
+  public startDate:Date;
 
   //public _embedded = {skillHours:[]};
 
@@ -15,8 +16,11 @@ export class Workpaket extends Hal {
       }
     }
     super(w);
-    if (w.date) {
-      this.date = w.date;
+    if (w.endDate) {
+      this.endDate = w.endDate;
+    }
+    if (w.startDate) {
+      this.startDate = w.startDate;
     }
     if (w.description) {
       this.description = w.description;

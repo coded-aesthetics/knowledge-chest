@@ -14,12 +14,12 @@
             <input type="text" id="description" [(ngModel)]="workPaket.description" name="description">
           </div>
           <!--div class="form-group col-xs-6">
-            <label for="start-date">Start date</label>
-            <datepicker id="start-date" [(ngModel)]="workPaket.start" [showWeeks]="true" name="startDate"></datepicker>
+            <label for="start-endDate">Start endDate</label>
+            <datepicker id="start-endDate" [(ngModel)]="workPaket.start" [showWeeks]="true" name="startDate"></datepicker>
           </div-->
           <div class="form-group col-xs-12">
             <label for="end-date">End date</label>
-            <datepicker id="end-date" [(ngModel)]="workPaket.date" [showWeeks]="true" name="endDate"></datepicker>
+            <datepicker id="end-date" [(ngModel)]="workPaket.endDate" [showWeeks]="true" name="endDate"></datepicker>
           </div>
           <div class="form-group col-xs-12">
             <div *ngFor="let skillHour of workPaket._embedded.skillHours">

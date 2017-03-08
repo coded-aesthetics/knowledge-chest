@@ -7,6 +7,7 @@ import {WorkPaketService} from "app/work-paket.service";
 import {Workpaket} from "app/domain/workpaket";
 import {SkillService} from "app/skill.service";
 import {Skill} from "app/domain/skill";
+import {Hal} from "app/domain/hal";
 
 const colors: any = {
   red: {
@@ -35,20 +36,19 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   events = [];
 
   constructor(private workPaketService:WorkPaketService, private skillService:SkillService) {
+    console.log("CalendarComp->consrtuctor");
     workPaketService.newWorkPaketsAvailable$.subscribe(
       workPakets => {
         this.createEvents(workPakets);
       });
-    if (workPaketService.workPakets) {
-      this.createEvents(workPaketService.workPakets);
-    }
   }
 
   createEvents(workPakets:Workpaket[]) {
+    console.log("createEvents", workPakets);
     this.workPakets = workPakets;
     this.events = [];
     for (let workPaket of workPakets) {
-      let endMoment = moment(workPaket.date).add({hours:12});
+      let endMoment = moment(workPaket.endDate).add({hours:12});
       let startMoment = endMoment.subtract({hours:1});
       let skillHours = workPaket.getEmbedded("skillHours");
       if (skillHours) {
@@ -74,10 +74,22 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    console.log("CalendarComp->onInit");
+    let test;
+    if (this.workPaketService.workPakets) {
+      this.createEvents(this.workPaketService.workPakets);
+    }
+    this.workPaketService.fetchWorkPakets().subscribe(
+      (wpHal:Hal) => {
+        this.workPakets = wpHal.getEmbedded("workPakets");
+      }
+    );
   }
 
   ngAfterViewInit() {
-    this.workPaketService.fetchWorkPakets().subscribe();
+    console.log("CalendarComp->afterViewInit");
+    //this.workPaketService.fetchWorkPakets().subscribe();
+
   }
   /**
    * {

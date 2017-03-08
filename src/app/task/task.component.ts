@@ -38,7 +38,6 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.subscription = skillService.newSkillsAvailable$.subscribe(
       skills => {
         this.skills = skills;
-        console.log(skills);
       });
     this.taskSubscription = taskService.newHighlightTasksAvailable$.subscribe(
       (highlightTasks) => {
@@ -73,7 +72,6 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   modalHidden() {
-    console.log("modalHidden");
     this.showModal=false;
   }
 
@@ -84,8 +82,6 @@ export class TaskComponent implements OnInit, OnDestroy {
   modalSubmitted(workPaket:Workpaket) {
     this.workPaketService.addWorkPaket(this.task, workPaket).subscribe(
       (data) => {
-        console.log("went", JSON.parse(data._body));
-        console.log("workpaket", workPaket);
         let wp:Workpaket = new Workpaket(JSON.parse(data._body));
         let skillHours = workPaket.getEmbedded("skillHours");
         var numChecked:number = 0;

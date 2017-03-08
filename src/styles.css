@@ -68,6 +68,10 @@ body .knowledge-chest .delete-cross {
   background-color: #f0f0fe;
 }
 
+.knowledge-chest .skill-detail-page .project-list-container {
+  height: calc(100vh - 70px);
+}
+
 .calendar .cal-month-view .cal-cell-top {
   min-height: 15px;
   line-height:1;

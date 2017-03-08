@@ -3,6 +3,14 @@
   margin:5px;
   border:1px solid lightgray;
 }
+.skill a {
+  color: #6e6e6e;
+  cursor:pointer;
+}
+.skill a:hover {
+  cursor:pointer;
+}
+
 .skill:hover {
   background-color: #f0f0fe;
 }

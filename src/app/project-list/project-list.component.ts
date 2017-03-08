@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import { ProjectService } from '../project.service';
 import { Project } from '../domain/project';
 import {Hal} from "app/domain/hal";
@@ -11,9 +11,11 @@ import {SkillService} from "app/skill.service";
 })
 export class ProjectListComponent implements OnInit {
 
-  public projects:Project[];
+  @Input() projects:Project[];
   public hal:Hal;
   public addProjectName:string;
+
+  @Input() hideLogo:boolean = false;
 
   constructor(private projectService:ProjectService, private skillService:SkillService) {}
 
@@ -46,7 +48,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProjects();
   }
 
 }

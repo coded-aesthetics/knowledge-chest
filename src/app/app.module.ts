@@ -39,11 +39,14 @@ import { ArticleComponent } from './article/article.component';
 import { ProjectDetailPageComponent } from './project-detail-page/project-detail-page.component';
 import { ProjectInfoComponent } from './project-info/project-info.component';
 import { SafeStylePipe } from './safe-style.pipe';
+import { SkillDetailPageComponent } from './skill-detail-page/skill-detail-page.component';
+import { SkillInfoComponent } from './skill-info/skill-info.component';
 
 const appRoutes: Routes = [
   { path: 'login',    component: LoginComponent },
   { path: 'projects', component: ProjectsPageComponent },
   { path: 'projects/detail/:id', component: ProjectDetailPageComponent },
+  { path: 'skills/detail/:id', component: SkillDetailPageComponent },
   { path: '',         redirectTo: '/projects', pathMatch: 'full' }
 ];
 
@@ -67,7 +70,9 @@ const appRoutes: Routes = [
     ArticleComponent,
     ProjectDetailPageComponent,
     ProjectInfoComponent,
-    SafeStylePipe
+    SafeStylePipe,
+    SkillDetailPageComponent,
+    SkillInfoComponent
   ],
   imports: [
     CalendarModule.forRoot(),

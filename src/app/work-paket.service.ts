@@ -6,6 +6,8 @@ import {Http, Headers, RequestOptions} from "@angular/http";
 import {Task} from "app/domain/task";
 import {Hal} from "app/domain/hal";
 
+import {environment} from 'environments/environment';
+
 @Injectable()
 export class WorkPaketService {
 
@@ -19,7 +21,7 @@ export class WorkPaketService {
   constructor(private http:Http) { }
 
   fetchWorkPakets(): Observable<Hal> {
-    return this.http.get("http://localhost:8081/workPakets",{ withCredentials: true })
+    return this.http.get(environment.serverRoot + "/workPakets",{ withCredentials: true })
       .map((data) => {
         var d = data.json();
         if (d._embedded) {
@@ -44,15 +46,15 @@ export class WorkPaketService {
     var h:Headers = new Headers({"Content-Type":'application/json'});
     var options:RequestOptions = new RequestOptions( { headers: h, withCredentials: true } );
     let sh = {hours:skillHour.hours+0.0,workPaket:workPaket.getLinkHref("self"),skill:skillHour.skill.getLinkHref("self")};
-    return this.http.post("http://localhost:8081/skillHours", JSON.stringify(sh), options)
+    return this.http.post(environment.serverRoot + "/skillHours", JSON.stringify(sh), options)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   addWorkPaket(task:Task, workPaket:Workpaket): Observable<any> {
     var h:Headers = new Headers({"Content-Type":'application/json'});
     var options:RequestOptions = new RequestOptions( { headers: h, withCredentials: true } );
-    let wp = {description:workPaket.description,date:workPaket.date,task:task.getLinkHref("self",true)};
-    return this.http.post("http://localhost:8081/workPakets", JSON.stringify(wp), options)
+    let wp = {description:workPaket.description,endDate:workPaket.endDate,task:task.getLinkHref("self",true)};
+    return this.http.post(environment.serverRoot + "/workPakets", JSON.stringify(wp), options)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 }

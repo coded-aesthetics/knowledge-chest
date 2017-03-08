@@ -7,6 +7,7 @@ import { Hal } from "app/domain/hal";
 import {Workpaket} from "app/domain/workpaket";
 import {Project} from "app/domain/project";
 import {Skill} from "app/domain/skill";
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class TaskService {
@@ -25,7 +26,7 @@ export class TaskService {
   }
 
   fetchTasksBySkill(skill:Skill):Observable<Task[]> {
-    return this.http.get("http://localhost:8081/tasks/search/findAllBySkillId?skillId=" + skill.id,{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/tasks/search/findAllBySkillId?skillId=" + skill.id,{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         if (d._embedded) {
@@ -44,7 +45,7 @@ export class TaskService {
   }
 
   fetchTasks(): Observable<Hal> {
-    return this.http.get("http://localhost:8081/tasks",{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/tasks",{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         if (d._embedded) {
@@ -68,7 +69,7 @@ export class TaskService {
     var h:Headers = new Headers({"Content-Type":'application/json'});
     var options:RequestOptions = new RequestOptions( { headers: h, withCredentials: true } );
     let t = {name:task.name,done:false,project:project.getLinkHref("self")};
-    return this.http.post("http://localhost:8081/tasks", JSON.stringify(t), options)
+    return this.http.post(environment.serverRoot+"/tasks", JSON.stringify(t), options)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 

@@ -14,6 +14,9 @@
         <span class="article-headline__date">- {{formatDate(article.date)}}</span>
         <span class="function-icon glyphicon glyphicon-trash fr" (click)="deleteArticle(article)"></span>
         <span class="function-icon edit-pen glyphicon glyphicon-pencil fr" (click)="editArticle(article)"></span>
+        <span *ngFor="let skill of article.getEmbedded('skills')"
+              class="skill-badge fr"
+              [ngStyle]="{'background-color':skill.color}">{{skill.name}}</span>
       </div>
       <div class="ql-editor" [innerHTML]="article.text"></div>
     </accordion-group>
