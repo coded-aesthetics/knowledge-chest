@@ -14,7 +14,7 @@ export class LoginComponent {
 
   submitted = false;
 
-  model = new Login("jreinsch@gmx.de", "K3n$3n7m3");
+  model = new Login("", "");
 
   onSubmit() {
     this.submitted = true;
