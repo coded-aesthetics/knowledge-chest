@@ -8,31 +8,21 @@ import {ProjectService} from "app/project.service";
 import {ArticleService} from "app/article.service";
 import {Article} from "app/domain/article";
 import {Task} from "app/domain/task";
+import {ArticleModalListener} from "app/helpers/article-modal-listener";
 
 @Component({
   selector: 'app-project-info',
   templateUrl: './project-info.component.html',
   styleUrls: ['./project-info.component.css']
 })
-export class ProjectInfoComponent implements OnInit {
+export class ProjectInfoComponent extends ArticleModalListener implements OnInit {
 
   @Input() id:number;
 
-  private subscription:Subscription;
-  private skills:Skill[] = [];
-  private project:Project = new Project({name:""});
   private articles:Article[];
-  private articleTask:Task;
 
-  private editArticle:Article = null;
-
-  showArticleModal:boolean = false;
-
-  constructor(private skillService:SkillService, private taskService:TaskService, private projectService:ProjectService, private articleService:ArticleService) {
-    this.subscription = skillService.newSkillsAvailable$.subscribe(
-      skills => {
-        this.skills = skills;
-      });
+  constructor(private taskService:TaskService, private projectService:ProjectService, public skillService:SkillService, public articleService:ArticleService) {
+    super(skillService, articleService);
   }
 
   ngOnInit() {
@@ -68,45 +58,8 @@ export class ProjectInfoComponent implements OnInit {
     this.fetchProject();
   }
 
-  openEditArticleModal(article:Article) {
-    this.editArticle = article;
-    this.showArticleModal = true;
-  }
-
-  openArticleModal(task:Task) {
-    this.showArticleModal = true;
-    this.articleTask = task;
-  }
-
-  articleModalHidden() {
-    console.log("modalHidden");
-    this.showArticleModal=false;
-    this.editArticle = null;
-  }
-
-  articleModalShow() {
-    console.log("shown");
-  }
-
-  articleModalSubmitted(article:Article) {
-    if (this.editArticle) {
-      this.articleService.deleteArticle(article).subscribe(
-        () => {
-          this.articleService.addArticle(article, this.project, new Task(article.getEmbedded("task")), null).subscribe(
-            () => {
-              this.fetchProject();
-            }
-          );
-        }
-      )
-    }
-    else {
-      this.articleService.addArticle(article, this.project, this.articleTask, null).subscribe(
-        () => {
-          this.fetchProject();
-        }
-      );
-    }
+  afterArticlePersisted() {
+    this.fetchProject();
   }
 
   articleDeleted() {

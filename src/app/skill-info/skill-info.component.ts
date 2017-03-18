@@ -3,21 +3,24 @@ import {SkillService} from "app/skill.service";
 import {Skill} from "app/domain/skill";
 import {ArticleService} from "app/article.service";
 import {Article} from "app/domain/article";
+import {ArticleModalListener} from "app/helpers/article-modal-listener";
 
 @Component({
   selector: 'app-skill-info',
   templateUrl: './skill-info.component.html',
   styleUrls: ['./skill-info.component.css']
 })
-export class SkillInfoComponent implements OnInit {
+export class SkillInfoComponent extends ArticleModalListener implements OnInit {
 
   @Input() id:number;
   private skill:Skill = new Skill({name:""});
   private articles:Article[];
 
-  constructor(private skillService:SkillService, private articleService:ArticleService) { }
+  constructor(public skillService:SkillService, public articleService:ArticleService) {
+    super(skillService, articleService);
+  }
 
-  ngOnInit() {
+  fetchSkill() {
     this.skillService.fetchSkillById(this.id).subscribe(
       (skill:Skill) => {
         this.skill = skill;
@@ -29,6 +32,14 @@ export class SkillInfoComponent implements OnInit {
         );
       }
     );
+  }
+
+  afterArticlePersisted() {
+    this.fetchSkill();
+  }
+
+  ngOnInit() {
+    this.fetchSkill();
   }
 
 }

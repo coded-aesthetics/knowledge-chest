@@ -8,43 +8,27 @@ import {ArticleService} from "app/article.service";
 import {Article} from "app/domain/article";
 import {Task} from "app/domain/task";
 import {Skill} from "app/domain/skill";
+import {ArticleModalListener} from "app/helpers/article-modal-listener";
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css']
 })
-export class ProjectComponent implements OnInit {
-
-  private skills:Skill[] = [];
-  title = 'app works!';
-  articleTask:Task = null;
+export class ProjectComponent extends ArticleModalListener implements OnInit {
 
   @Input() project: Project;
   @Output() taskAdded = new EventEmitter<any>();
   @Output() taskDeleted = new EventEmitter<any>();
   @Output() projectDeleted = new EventEmitter<Project>();
 
-  showArticleModal:boolean = false;
+  private highlightSubscription:Subscription;
 
-  subscription:Subscription = null;
-
-  constructor(private projectService:ProjectService, private articleService:ArticleService, private taskService:TaskService, private skillService:SkillService) {
-    this.subscription = skillService.newSkillsAvailable$.subscribe(
-      skills => {
-        this.skills = skills;
-      });
-    if (skillService.skills) {
-      this.skills = skillService.skills;
-    }
-  }
-
-  getProjects():void {
-
+  constructor(private projectService:ProjectService, public articleService:ArticleService, private taskService:TaskService, public skillService:SkillService) {
+    super(skillService, articleService);
   }
 
   ngOnInit(): void {
-    this.getProjects();
   }
 
   addNewTask(task:any) {
@@ -66,31 +50,13 @@ export class ProjectComponent implements OnInit {
   }
 
   highlightSkills() {
-    this.subscription = this.skillService.fetchSkillIdsByProject(this.project).subscribe();
+    this.highlightSubscription = this.skillService.fetchSkillIdsByProject(this.project).subscribe();
   }
 
   dehighlightSkills() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.highlightSubscription) {
+      this.highlightSubscription.unsubscribe();
     }
     this.skillService.dehighlightSkills();
-  }
-
-  openArticleModal(task:Task) {
-    this.showArticleModal=true;
-    this.articleTask = task;
-  }
-
-  articleModalHidden() {
-    console.log("modalHidden");
-    this.showArticleModal=false;
-  }
-
-  articleModalShow() {
-    console.log("shown");
-  }
-
-  articleModalSubmitted(article:Article) {
-    this.articleService.addArticle(article, this.project, this.articleTask, null).subscribe();
   }
 }

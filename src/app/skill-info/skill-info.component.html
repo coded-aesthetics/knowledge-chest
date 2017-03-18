@@ -13,3 +13,9 @@
     </div>
   </div>
 </div>
+<app-compose-article-modal
+  [article]="editArticle"
+  [skills]="skills"
+  (modalSubmit)="articleModalSubmitted($event)"
+  (onHide)="articleModalHidden()"
+  (onShow)="articleModalShow()" *ngIf="showArticleModal"></app-compose-article-modal>
