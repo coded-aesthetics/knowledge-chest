@@ -8,7 +8,7 @@
       </div>
       This is just some content to illustrate fancy headings.
     </accordion-group-->
-    <accordion-group #group *ngFor="let article of articles" class="article-list__article ql-snow">
+    <accordion-group #group *ngFor="let article of getArticlesSortedByDateDesc()" class="article-list__article ql-snow">
       <div accordion-heading>
         <span class="article-headline__title">{{article.headline}}</span>
         <span class="article-headline__date">- {{formatDate(article.date)}}</span>

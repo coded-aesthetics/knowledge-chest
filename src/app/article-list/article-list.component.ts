@@ -19,6 +19,19 @@ export class ArticleListComponent implements OnInit {
   ngOnInit() {
   }
 
+  getArticlesSortedByDateDesc():Article[] {
+    if (!this.articles) {
+      return [];
+    }
+    return this.articles.sort((a1, a2) => {
+
+      if (!a1.date || !a2.date) {return -100;}
+      let d1 = moment(a1.date).toDate();
+      let d2 = moment(a2.date).toDate();
+      return d2.getTime() - d1.getTime();
+    });
+  }
+
   formatDate(date:Date):string {
     return moment(date).format('DD.MM.YYYY - HH:mm');
   }
