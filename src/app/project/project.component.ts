@@ -22,8 +22,6 @@ export class ProjectComponent extends ArticleModalListener implements OnInit {
   @Output() taskDeleted = new EventEmitter<any>();
   @Output() projectDeleted = new EventEmitter<Project>();
 
-  private highlightSubscription:Subscription;
-
   constructor(private projectService:ProjectService, public articleService:ArticleService, private taskService:TaskService, public skillService:SkillService) {
     super(skillService, articleService);
   }
@@ -47,16 +45,5 @@ export class ProjectComponent extends ArticleModalListener implements OnInit {
       () => {this.projectDeleted.emit(this.project)},
       () => {}
     )
-  }
-
-  highlightSkills() {
-    this.highlightSubscription = this.skillService.fetchSkillIdsByProject(this.project).subscribe();
-  }
-
-  dehighlightSkills() {
-    if (this.highlightSubscription) {
-      this.highlightSubscription.unsubscribe();
-    }
-    this.skillService.dehighlightSkills();
   }
 }

@@ -41,6 +41,8 @@ import { ProjectInfoComponent } from './project-info/project-info.component';
 import { SafeStylePipe } from './safe-style.pipe';
 import { SkillDetailPageComponent } from './skill-detail-page/skill-detail-page.component';
 import { SkillInfoComponent } from './skill-info/skill-info.component';
+import { HighlightTasksDirective } from './skill/highlight-tasks.directive';
+import { HighlightSkillsDirective } from './project/highlight-skills.directive';
 
 const appRoutes: Routes = [
   { path: 'login',    component: LoginComponent },
@@ -72,7 +74,9 @@ const appRoutes: Routes = [
     ProjectInfoComponent,
     SafeStylePipe,
     SkillDetailPageComponent,
-    SkillInfoComponent
+    SkillInfoComponent,
+    HighlightTasksDirective,
+    HighlightSkillsDirective
   ],
   imports: [
     CalendarModule.forRoot(),

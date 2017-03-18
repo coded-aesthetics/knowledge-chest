@@ -1,5 +1,5 @@
 <div>
-  <div class="project-header" (mouseenter)="highlightSkills()" (mouseleave)="dehighlightSkills()">
+  <div class="project-header" appHighlightSkills [project]="project">
     <a routerLink="{{'/projects/detail/' + project.id}}">{{project.name}}</a> <span class="project-header__delete delete-cross" (click)="deleteProject()">&times;</span>
   </div>
   <app-compose-article-modal [skills]="skills" (modalSubmit)="articleModalSubmitted($event)" (onHide)="articleModalHidden()" (onShow)="articleModalShow()" *ngIf="showArticleModal"></app-compose-article-modal>

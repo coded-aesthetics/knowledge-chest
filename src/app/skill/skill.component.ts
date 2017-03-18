@@ -17,10 +17,7 @@ export class SkillComponent implements OnInit {
   @Input() skill:Skill;
   @Output() onDelete = new EventEmitter<Skill>();
 
-  skills:Skill[];
-
   highlight:boolean = false;
-  showModal:boolean = false;
 
   constructor(private taskService:TaskService, private skillService:SkillService) {
     skillService.newHighlightSkillsAvailable$.subscribe(
@@ -34,14 +31,6 @@ export class SkillComponent implements OnInit {
       },
       () => {}
     );
-    this.subscription = skillService.newSkillsAvailable$.subscribe(
-      skills => {
-        this.skills = skills;
-        console.log(skills);
-      });
-    if (skillService.skills) {
-      this.skills = skillService.skills;
-    }
   }
 
   ngOnInit() {
@@ -50,19 +39,5 @@ export class SkillComponent implements OnInit {
   deleteSkill() {
     this.onDelete.emit(this.skill);
   }
-
-  private subscription:Subscription;
-
-  highlightTasks() {
-    this.subscription = this.taskService.fetchTasksBySkill(this.skill).subscribe();
-  }
-
-  dehighlightTasks() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    this.taskService.dehighlightTasks();
-  }
-
 
 }
