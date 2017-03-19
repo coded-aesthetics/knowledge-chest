@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions} from "@angular/http";
 import {Article} from "app/domain/article";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Task} from "app/domain/task";
 import {Project} from "app/domain/project";
 import {Workpaket} from "app/domain/workpaket";
@@ -11,6 +11,13 @@ import {environment} from 'environments/environment';
 
 @Injectable()
 export class ArticleService {
+
+  public hal:Hal = new Hal({_embedded:{articles:[]},_links:{}});
+  public articles:Article[] = [];
+
+  private newArticlesAvailableSource = new Subject<Article[]>();
+
+  newArticlesAvailable$ = this.newArticlesAvailableSource.asObservable();
 
   constructor(private http:Http) {
   }
@@ -26,7 +33,10 @@ export class ArticleService {
             });
           }
         }
-        return new Hal(d);
+        this.hal = new Hal(d);
+        this.articles = this.hal.getEmbedded("articles");
+        this.newArticlesAvailableSource.next(this.articles);
+        return this.hal;
       })
       .catch((error:any) => Observable.throw(error || 'Server error'));
   }

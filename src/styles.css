@@ -87,6 +87,11 @@ body .knowledge-chest .delete-cross {
   font-size:10px;
   width:calc(100% - 70px);
 }
+
+.calendar .calendar-article-dot {
+  border:1px solid black;
+}
+
 .calendar .cal-month-view .cal-day-cell.cal-today .cal-day-number {
   font-size:1em;
   margin:5px;

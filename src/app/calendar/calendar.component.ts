@@ -8,6 +8,8 @@ import {Workpaket} from "app/domain/workpaket";
 import {SkillService} from "app/skill.service";
 import {Skill} from "app/domain/skill";
 import {Hal} from "app/domain/hal";
+import {ArticleService} from "app/article.service";
+import {Article} from "app/domain/article";
 
 const colors: any = {
   red: {
@@ -32,43 +34,84 @@ const colors: any = {
 export class CalendarComponent implements OnInit, AfterViewInit {
   public viewDate:Date = new Date();
   public workPakets:Workpaket[];
+  public articles:Article[];
 
   events = [];
 
-  constructor(private workPaketService:WorkPaketService, private skillService:SkillService) {
-    console.log("CalendarComp->consrtuctor");
+  constructor(private workPaketService:WorkPaketService, private articleService:ArticleService) {
+    console.log("CalendarComp->constructor");
     workPaketService.newWorkPaketsAvailable$.subscribe(
       workPakets => {
-        this.createEvents(workPakets);
+        this.createEvents(workPakets, null);
       });
+    articleService.newArticlesAvailable$.subscribe(
+      articles => {
+        this.createEvents(null, articles);
+      }
+    );
   }
 
-  createEvents(workPakets:Workpaket[]) {
+  createEvents(workPakets:Workpaket[], articles:Article[]) {
     console.log("createEvents", workPakets);
-    this.workPakets = workPakets;
+    if (workPakets) {
+      this.workPakets = workPakets;
+    }
+    if (articles) {
+      this.articles = articles;
+    }
     this.events = [];
-    for (let workPaket of workPakets) {
-      let endMoment = moment(workPaket.endDate).add({hours:12});
-      let startMoment = endMoment.subtract({hours:1});
-      let skillHours = workPaket.getEmbedded("skillHours");
-      if (skillHours) {
-        for (let skillHour of skillHours) {
-          console.log(skillHour, skillHour.getLinkHref("skill"));
-          let skill: Skill = new Skill(skillHour.skill);
-          console.log(skill);
-          if (skill) {
-            let evt = {
-              end: endMoment,
-              start: startMoment,
-              title: workPaket.description,
-              color: {
-                primary: skill.color,
-                secondary: skill.color
-              }
-            };
-            this.events.push(evt);
+    if (this.workPakets) {
+      for (let workPaket of this.workPakets) {
+        let endMoment = moment(workPaket.endDate).add({hours: 12});
+        let startMoment = endMoment.subtract({hours: 1});
+        let skillHours = workPaket.getEmbedded("skillHours");
+        if (skillHours) {
+          for (let skillHour of skillHours) {
+            console.log(skillHour, skillHour.getLinkHref("skill"));
+            let skill: Skill = new Skill(skillHour.skill);
+            console.log(skill);
+            if (skill) {
+              let evt = {
+                end: endMoment,
+                start: startMoment,
+                title: "Workpaket: " + workPaket.getEmbedded("task").name + " - " + workPaket.description,
+                color: {
+                  primary: skill.color
+                }
+              };
+              this.events.push(evt);
+            }
           }
         }
+      }
+    }
+    if (this.articles) {
+      console.log("articles", this.articles);
+      for (let article of this.articles) {
+        let endMoment = moment(article.date);
+        let startMoment = endMoment.subtract({hours: 1});
+        let title = "Article: ";
+        if (article.getEmbedded("task")) {
+          title += article.getEmbedded("task").name + " - ";
+        }
+        title += article.headline;
+        let color = '#000000';
+        if (article.getEmbedded("skills")) {
+          let skills = article.getEmbedded("skills");
+          if (skills.length > 0) {
+            color = skills[0].color;
+          }
+        }
+        let evt = {
+          end: endMoment,
+          start: startMoment,
+          title: title,
+          color: {
+            primary: color
+          },
+          cssClass: 'calendar-article-dot'
+        };
+        this.events.push(evt);
       }
     }
   }
@@ -77,11 +120,19 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     console.log("CalendarComp->onInit");
     let test;
     if (this.workPaketService.workPakets) {
-      this.createEvents(this.workPaketService.workPakets);
+      this.createEvents(this.workPaketService.workPakets, null);
     }
     this.workPaketService.fetchWorkPakets().subscribe(
       (wpHal:Hal) => {
         this.workPakets = wpHal.getEmbedded("workPakets");
+      }
+    );
+    if (this.articleService.articles) {
+      this.createEvents(null, this.articleService.articles);
+    }
+    this.articleService.fetchArticles().subscribe(
+      (arHal:Hal) => {
+        this.articles = arHal.getEmbedded("articles");
       }
     );
   }
