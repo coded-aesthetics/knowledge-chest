@@ -26,18 +26,18 @@ export class TaskService {
   }
 
   fetchTasksBySkill(skill:Skill):Observable<Task[]> {
-    return this.http.get(environment.serverRoot+"/tasks/search/findAllBySkillId?skillId=" + skill.id,{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/taskPlusSkillIds/search/findBySkillId?skillId=" + skill.id,{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         if (d._embedded) {
           if (d._embedded.tasks) {
-            d._embedded.tasks = d._embedded.tasks.map((s) => {
+            d._embedded.tasks = d._embedded.taskPlusSkillIds.map((s) => {
               return new Task(s);
             });
           }
         }
         let hal:Hal = new Hal(d);
-        this.highlightTasks = hal.getEmbedded("tasks");
+        this.highlightTasks = hal.getEmbedded("taskPlusSkillIds");
         this.newHighlightTasksAvailableSource.next({color:skill.color, tasks: this.highlightTasks});
         return this.highlightTasks;
       })
