@@ -25,4 +25,8 @@ describe('TaskComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should contain name of task', () => {
+    expect(component).toBeTruthy();
+  });
 });

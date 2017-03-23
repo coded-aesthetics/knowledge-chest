@@ -5,6 +5,17 @@
   border:1px solid lightgrey;
   transition:.1s;
 }
+.task__name {
+  width: calc(100% - 60px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-top: 5px;
+  line-height: 1;
+}
+.task__icons {
+  width:55px;
+}
 .task:hover {
   background-color: #f0f0fe;
 }

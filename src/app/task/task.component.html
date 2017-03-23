@@ -1,6 +1,11 @@
 <div class="task" [ngStyle]="{'background-color':highlightColor}">
-  {{task.name}} <span class="delete-cross" (click)="deleteTask()" class="function-icon glyphicon glyphicon-trash cp fr"></span>
-  <span (click)="openLogModal()" class="function-icon glyphicon glyphicon-time cp fr"></span>
-  <span (click)="openArticleModal()" class="function-icon glyphicon glyphicon-pencil cp fr"></span>
+  <div class="task__name ib">
+  {{task.name}}
+  </div>
+  <div class="task__icons ib">
+    <span class="delete-cross" (click)="deleteTask()" class="function-icon glyphicon glyphicon-trash cp fr"></span>
+    <span (click)="openLogModal()" class="function-icon glyphicon glyphicon-time cp fr"></span>
+    <span (click)="openArticleModal()" class="function-icon glyphicon glyphicon-pencil cp fr"></span>
+  </div>
   <app-log-time-modal [skills]="skills" (modalSubmit)="modalSubmitted($event)" (onHide)="modalHidden()" (onShow)="modalShow()" *ngIf="showModal"></app-log-time-modal>
 </div>
