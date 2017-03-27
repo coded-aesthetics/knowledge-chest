@@ -29,7 +29,7 @@ export class ProjectService {
   }
 
   fetchProjectsBySkillId(id:number): Observable<Hal> {
-    return this.http.get(environment.serverRoot+"/projects/search/findAllBySkillId?skillId=" + id,{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/projects/search/findBySkillId?skillId=" + id,{ withCredentials: true })
       .map( (data) => {
         var d = data.json();
         if (d._embedded) {
