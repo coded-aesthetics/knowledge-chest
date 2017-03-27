@@ -116,3 +116,15 @@ body .knowledge-chest .delete-cross {
 .calendar .cal-month-view .cal-cell {
   flex-direction: row-reverse;
 }
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/3357ab");
+
+
+@font-face {font-family: 'BornReadySlanted-Regular';src: url('assets/fonts/3357AB_0_0.eot');src: url('assets/fonts/3357AB_0_0.eot?#iefix') format('embedded-opentype'),url('assets/fonts/3357AB_0_0.woff2') format('woff2'),url('assets/fonts/3357AB_0_0.woff') format('woff'),url('assets/fonts/3357AB_0_0.ttf') format('truetype');}
+
+
+@font-face {font-family: 'BornReadyUpright-Regular';src: url('assets/fonts/3357AB_1_0.eot');src: url('assets/fonts/3357AB_1_0.eot?#iefix') format('embedded-opentype'),url('assets/fonts/3357AB_1_0.woff2') format('woff2'),url('assets/fonts/3357AB_1_0.woff') format('woff'),url('assets/fonts/3357AB_1_0.ttf') format('truetype');}
+
+
+@font-face {font-family: 'BornReady-Regular';src: url('assets/fonts/3357AB_2_0.eot');src: url('assets/fonts/3357AB_2_0.eot?#iefix') format('embedded-opentype'),url('assets/fonts/3357AB_2_0.woff2') format('woff2'),url('assets/fonts/3357AB_2_0.woff') format('woff'),url('assets/fonts/3357AB_2_0.ttf') format('truetype');}
