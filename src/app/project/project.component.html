@@ -1,6 +1,6 @@
 <div>
   <div class="project-header" appHighlightSkills [project]="project">
-    <a routerLink="{{'/projects/detail/' + project.id}}">{{project.name}}</a> <span class="project-header__delete delete-cross" (click)="deleteProject()">&times;</span>
+    <a routerLink="{{'/projects/detail/' + project.id}}">{{project.name}}</a> <!--span class="project-header__delete delete-cross" (click)="deleteProject()">&times;</span-->
   </div>
   <app-compose-article-modal [skills]="skills" (modalSubmit)="articleModalSubmitted($event)" (onHide)="articleModalHidden()" (onShow)="articleModalShow()" *ngIf="showArticleModal"></app-compose-article-modal>
   <app-task-list (openArticleModalEE)="openArticleModal($event)" (deleteTaskEE)="deleteTask($event)" (addTaskEE)="addNewTask($event)" [tasks]="project.getEmbedded('tasks')"></app-task-list>

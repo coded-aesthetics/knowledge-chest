@@ -1,7 +1,7 @@
 <div class="skill" [ngClass]="{'highlight':highlight}" appHighlightTasks [skill]="skill">
   <div class="skill__name ib">
     <a routerLink="{{'/skills/detail/' + skill.id}}">{{skill.name}}</a>
-    <span class="delete-cross cp" (click)="deleteSkill()">&times;</span>
+    <!--span class="delete-cross cp" (click)="deleteSkill()">&times;</span-->
   </div>
     <div class="skill__color ib" [ngStyle]="{'background-color':skill.color}">&nbsp;</div>
 </div>
