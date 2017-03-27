@@ -9,9 +9,11 @@
       This is just some content to illustrate fancy headings.
     </accordion-group-->
     <accordion-group #group *ngFor="let article of getArticlesSortedByDateDesc()" class="article-list__article ql-snow">
-      <div accordion-heading>
-        <span class="article-headline__title">{{article.headline}}</span>
-        <span class="article-headline__date">- {{formatDate(article.date)}}</span>
+      <div accordion-heading class="article-headline">
+        <div class="article-headline__top">
+          <span class="article-headline__title">{{article.headline}}</span>
+        </div>
+        <span class="article-headline__date">{{formatDate(article.date)}}</span>
         <span class="function-icon glyphicon glyphicon-trash fr" (click)="deleteArticle(article)"></span>
         <span class="function-icon edit-pen glyphicon glyphicon-pencil fr" (click)="editArticle(article)"></span>
         <span *ngFor="let skill of article.getEmbedded('skills')"

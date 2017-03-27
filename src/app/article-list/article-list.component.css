@@ -2,6 +2,10 @@
   color: lightgrey;
   font-size: 16px;
 }
+
+.article-headline__top {
+  margin-bottom: 2px;
+}
 .function-icon {
   font-size:15px;
   padding-left:4px;
