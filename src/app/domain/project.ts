@@ -10,6 +10,9 @@ export class Project extends Hal {
     }
     super(p);
     this.id = p.id;
+    if (p.id === undefined) {
+      this.id = p.Id;
+    }
     this.name = p.name;
   }
   public id:number;
