@@ -79,7 +79,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
             if (skill) {
               let tli:VisTimelineItem = {} as VisTimelineItem;
               tli.id = tlis.length +1;
-              tli.start = startMoment.format("YYYY-MM-DD");
+              tli.start = startMoment.unix();
               //tli.end = endMoment.unix();
               tli.content = "Workpaket: " + workPaket.getEmbedded("task").name + " - " + workPaket.description;
               //tli.style = "background-color: " + skill.color + ";";
@@ -108,7 +108,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
         }
         let tli:VisTimelineItem = {} as VisTimelineItem;
         tli.id = tlis.length +1;
-        tli.start = startMoment.format("YYYY-MM-DD");
+        tli.start = startMoment.unix();
         //tli.end = endMoment.unix();
         tli.content = title;
         //tli.style = "background-color: " + color + ";";
