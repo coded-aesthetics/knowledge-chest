@@ -7,6 +7,7 @@ import { CalendarModule } from 'angular-calendar';
 import { ModalModule } from 'ng2-bootstrap/modal' ;
 import { AccordionModule } from 'ng2-bootstrap/accordion';
 import { QuillModule } from 'ngx-quill';
+import { VisModule } from 'ng2-vis/ng2-vis';
 
 import { OAuthService } from 'angular2-oauth2/oauth-service';
 import { ProjectService } from './project.service'
@@ -43,6 +44,7 @@ import { SkillDetailPageComponent } from './skill-detail-page/skill-detail-page.
 import { SkillInfoComponent } from './skill-info/skill-info.component';
 import { HighlightTasksDirective } from './skill/highlight-tasks.directive';
 import { HighlightSkillsDirective } from './project/highlight-skills.directive';
+import { TimelineComponent } from './timeline/timeline.component';
 
 const appRoutes: Routes = [
   { path: 'login',    component: LoginComponent },
@@ -76,9 +78,11 @@ const appRoutes: Routes = [
     SkillDetailPageComponent,
     SkillInfoComponent,
     HighlightTasksDirective,
-    HighlightSkillsDirective
+    HighlightSkillsDirective,
+    TimelineComponent
   ],
   imports: [
+    VisModule,
     CalendarModule.forRoot(),
     TypeaheadModule.forRoot(),
     DatepickerModule.forRoot(),

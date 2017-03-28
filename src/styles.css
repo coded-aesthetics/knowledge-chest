@@ -16,6 +16,19 @@ body .knowledge-chest .delete-cross {
   font-family: sans-serif;
 }
 
+.knowledge-chest .vis-text.vis-minor {
+  font-size:11px;
+}
+
+.knowledge-chest .vis-text.vis-major {
+  font-size:12px;
+}
+
+.knowledge-chest .vis-item .vis-item-content {
+  font-size:9px;
+  padding:2px;
+}
+
 .fl {
   float: left;
 }
