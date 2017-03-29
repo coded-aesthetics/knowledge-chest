@@ -172,11 +172,6 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       } as {eventCount: number, start: Date, end: Date, skills: any};
 
       for (let event of events) {
-        if (this.filterSkill !== null) {
-          if (this.filterSkill.id !== event.skill.id) {
-            continue;
-          }
-        }
         let t = event.start.getTime();
         if (t > curClusterEndDate) {
           curClusterStartDate = curClusterEndDate;
@@ -191,6 +186,11 @@ export class TimelineComponent implements OnInit, AfterViewInit {
             end: new Date(curClusterEndDate),
             skills: {}
           };
+        }
+        if (this.filterSkill !== null) {
+          if (this.filterSkill.id !== event.skill.id) {
+            continue;
+          }
         }
         if (!curCluster.skills[event.skill.name]) {
           curCluster.skills[event.skill.name] = {};
