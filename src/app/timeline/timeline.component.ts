@@ -27,9 +27,15 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   public articles:Article[];
   private tlis:VisTimelineItem[];
 
+  private filterSkill:Skill = null;
+
   events = [];
 
-  constructor(private workPaketService:WorkPaketService, private articleService:ArticleService, private timelineService:VisTimelineService) {
+  constructor(private workPaketService:WorkPaketService, private articleService:ArticleService, private timelineService:VisTimelineService,private skillService:SkillService) {
+    skillService.newFilterSkillAvailable$.subscribe((skill:Skill) => {
+      this.filterSkill = skill;
+      this.createEvents(this.workPakets, this.articles);
+    });
     console.log("CalendarComp->constructor");
     workPaketService.newWorkPaketsAvailable$.subscribe(
       workPakets => {
@@ -166,6 +172,11 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       } as {eventCount: number, start: Date, end: Date, skills: any};
 
       for (let event of events) {
+        if (this.filterSkill !== null) {
+          if (this.filterSkill.id !== event.skill.id) {
+            continue;
+          }
+        }
         let t = event.start.getTime();
         if (t > curClusterEndDate) {
           curClusterStartDate = curClusterEndDate;
@@ -203,7 +214,6 @@ export class TimelineComponent implements OnInit, AfterViewInit {
         ++curCluster.eventCount;
       }
     }
-    console.log(clusters);
     this.tlis = [];
     for (let cluster of clusters) {
       let content:string = "";

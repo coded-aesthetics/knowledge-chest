@@ -36,6 +36,14 @@ export class SkillComponent implements OnInit {
   ngOnInit() {
   }
 
+  mouseenter() {
+    this.skillService.setFilterSkill(this.skill);
+  }
+
+  mouseleave() {
+    this.skillService.unsetFilterSkill();
+  }
+
   deleteSkill() {
     this.onDelete.emit(this.skill);
   }

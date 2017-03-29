@@ -23,8 +23,20 @@ export class SkillService {
 
   newHighlightSkillsAvailable$ = this.newHighlightSkillsAvailableSource.asObservable();
 
+  private newFilterSkillAvailableSource = new Subject<Skill>();
+
+  newFilterSkillAvailable$ = this.newFilterSkillAvailableSource.asObservable();
+
 
   constructor(private http:Http) {
+  }
+
+  setFilterSkill(skill:Skill) {
+    this.newFilterSkillAvailableSource.next(skill);
+  }
+
+  unsetFilterSkill() {
+    this.newFilterSkillAvailableSource.next(null);
   }
 
   dehighlightSkills() {
