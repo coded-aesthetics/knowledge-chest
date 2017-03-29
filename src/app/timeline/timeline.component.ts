@@ -213,6 +213,9 @@ export class TimelineComponent implements OnInit, AfterViewInit {
         curCluster.end = event.start;
         ++curCluster.eventCount;
       }
+      if (curCluster.eventCount > 0) {
+        clusters.push(curCluster);
+      }
     }
     this.tlis = [];
     for (let cluster of clusters) {
