@@ -8,7 +8,7 @@ import {Skill} from "app/domain/skill";
 import {Hal} from "app/domain/hal";
 import {ArticleService} from "app/article.service";
 import {Article} from "app/domain/article";
-import {VisTimelineItems, VisTimelineItem, VisTimelineOptions} from "ng2-vis/components/timeline";
+import {VisTimelineItems, VisTimelineItem, VisTimelineOptions, VisTimelineService} from "ng2-vis/components/timeline";
 import {HeightWidthType, TimelineOptions} from "vis";
 
 
@@ -25,10 +25,11 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   public timelineOptions:TimelineOptions;
   public visTimeline: string = 'timelineId1';
   public articles:Article[];
+  private tlis:VisTimelineItem[];
 
   events = [];
 
-  constructor(private workPaketService:WorkPaketService, private articleService:ArticleService) {
+  constructor(private workPaketService:WorkPaketService, private articleService:ArticleService, private timelineService:VisTimelineService) {
     console.log("CalendarComp->constructor");
     workPaketService.newWorkPaketsAvailable$.subscribe(
       workPakets => {
@@ -42,6 +43,22 @@ export class TimelineComponent implements OnInit, AfterViewInit {
     this.timelineOptions = {showMinorLabels:true, minHeight:210, maxHeight:210, rollingMode:true} as TimelineOptions;
   }
 
+  getItemCountInRange(start:Date, end:Date):number {
+    let tlisFiltered = this.tlis.filter((tli:VisTimelineItem) => {
+      let s = tli.start as Date;
+      return s.getTime() > start.getTime() && s.getTime() < end.getTime();
+    });
+    return tlisFiltered.length;
+  }
+
+  initialized(event:any) {
+    console.log("init");
+    let evt = this.timelineService.on(this.visTimeline, 'rangechanged');
+    this.timelineService.rangechanged.subscribe((event:any) => {
+      console.log(this.getItemCountInRange(event[1].start, event[1].end));
+    });
+  }
+
   createEvents(workPakets:Workpaket[], articles:Article[]) {
     console.log("createEvents", workPakets);
     if (workPakets) {
@@ -50,7 +67,8 @@ export class TimelineComponent implements OnInit, AfterViewInit {
     if (articles) {
       this.articles = articles;
     }
-    let tlis:VisTimelineItem[] = [];
+    this.tlis = [];
+    let events:any[] = [];
     if (this.workPakets) {
       for (let workPaket of this.workPakets) {
         let endMoment = moment(workPaket.endDate).add({hours: 12});
@@ -78,12 +96,19 @@ export class TimelineComponent implements OnInit, AfterViewInit {
              */
             if (skill) {
               let tli:VisTimelineItem = {} as VisTimelineItem;
-              tli.id = tlis.length +1;
+              tli.id = this.tlis.length +1;
               tli.start = startMoment.toDate();
               //tli.end = endMoment.unix();
               tli.content = "Workpaket: " + workPaket.getEmbedded("task").name + " - " + workPaket.description;
               //tli.style = "background-color: " + skill.color + ";";
-              tlis.push(tli);
+              this.tlis.push(tli);
+              events.push({
+                type:"SkillHour",
+                skill:skill,
+                hours:skillHour.hours,
+                workPaket:workPaket,
+                start:tli.start
+              });
             }
           }
         }
@@ -105,18 +130,110 @@ export class TimelineComponent implements OnInit, AfterViewInit {
           if (skills.length > 0) {
             color = skills[0].color;
           }
+          for (let skill of article.getEmbedded("skills")) {
+            events.push({
+              type: "Article",
+              article: article,
+              skill: skill,
+              start: startMoment.toDate()
+            });
+          }
         }
         let tli:VisTimelineItem = {} as VisTimelineItem;
-        tli.id = tlis.length +1;
+        tli.id = this.tlis.length +1;
         tli.start = startMoment.toDate();
         //tli.end = endMoment.unix();
         tli.content = title;
         //tli.style = "background-color: " + color + ";";
-        tlis.push(tli);
+        this.tlis.push(tli);
+
       }
     }
-    console.log(tlis);
-    this.timelineItems = new VisTimelineItems(tlis);
+    events.sort((e1, e2) => {
+      return e1.start.getTime()-e2.start.getTime();
+    });
+    let clusters = [];
+    if (events.length > 0) {
+      let minDate = events[0].start.getTime();
+      let maxDate = events[events.length - 1].start.getTime();
+      let curClusterStartDate = minDate;
+      let curClusterEndDate = curClusterStartDate + 1000 * 60 * 60 * 24;
+      let curCluster = {
+        eventCount: 0,
+        start: new Date(curClusterStartDate),
+        end: new Date(curClusterEndDate),
+        skills: {}
+      } as {eventCount: number, start: Date, end: Date, skills: any};
+
+      for (let event of events) {
+        let t = event.start.getTime();
+        if (t > curClusterEndDate) {
+          curClusterStartDate = curClusterEndDate;
+          curClusterEndDate = curClusterStartDate + 1000 * 60 * 60 * 24;
+
+          if (curCluster.eventCount > 0) {
+            clusters.push(curCluster);
+          }
+          curCluster = {
+            eventCount: 0,
+            start: event.start,
+            end: new Date(curClusterEndDate),
+            skills: {}
+          };
+        }
+        if (!curCluster.skills[event.skill.name]) {
+          curCluster.skills[event.skill.name] = {};
+        }
+        let curSkills = curCluster.skills[event.skill.name];
+        if (event.type == "SkillHour") {
+          if (curSkills.hours === undefined) {
+            curSkills.hours = event.hours;
+          } else {
+            curSkills.hours += event.hours;
+          }
+        }
+        if (event.type == "Article") {
+          if (curSkills.articleCount === undefined) {
+            curSkills.articleCount = 1;
+          } else {
+            curSkills.articleCount++;
+          }
+        }
+        curCluster.end = event.start;
+        ++curCluster.eventCount;
+      }
+    }
+    console.log(clusters);
+    this.tlis = [];
+    for (let cluster of clusters) {
+
+      for (let key in cluster.skills) {
+        let cur = cluster.skills[key];
+        let content:string = key + ": ";
+        let hasHours = false;
+        if (cur.hours !== undefined) {
+          content += cur.hours + " h";
+          hasHours = true;
+        }
+        if (cur.articleCount !== undefined) {
+          if (hasHours) {
+            content += ", ";
+
+          }
+          content += cur.articleCount + " article(s)";
+        }
+        let tli:VisTimelineItem = {} as VisTimelineItem;
+        tli.id = this.tlis.length +1;
+        tli.start = new Date((cluster.start.getTime() + cluster.end.getTime() / 2));
+        //tli.end = cluster.end;
+        tli.content = content;
+        //tli.style = "background-color: " + color + ";";
+        this.tlis.push(tli);
+      }
+
+
+    }
+    this.timelineItems = new VisTimelineItems(this.tlis);
   }
 
   ngOnInit() {
