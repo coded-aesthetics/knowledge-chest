@@ -231,7 +231,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       }
       let tli:VisTimelineItem = {} as VisTimelineItem;
       tli.id = this.tlis.length +1;
-      tli.start = new Date((cluster.start.getTime() + cluster.end.getTime() / 2));
+      tli.start = new Date((cluster.start.getTime() + cluster.end.getTime()) / 2);
       //tli.end = cluster.end;
       tli.content = content;
       //tli.style = "background-color: " + color + ";";
