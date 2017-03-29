@@ -206,10 +206,14 @@ export class TimelineComponent implements OnInit, AfterViewInit {
     console.log(clusters);
     this.tlis = [];
     for (let cluster of clusters) {
-
+      let content:string = "";
+      let hasContent = false;
       for (let key in cluster.skills) {
         let cur = cluster.skills[key];
-        let content:string = key + ": ";
+        if (hasContent) {
+          content += "<br/>";
+        }
+        content += key + ": ";
         let hasHours = false;
         if (cur.hours !== undefined) {
           content += cur.hours + " h";
@@ -222,15 +226,16 @@ export class TimelineComponent implements OnInit, AfterViewInit {
           }
           content += cur.articleCount + " article(s)";
         }
-        let tli:VisTimelineItem = {} as VisTimelineItem;
-        tli.id = this.tlis.length +1;
-        tli.start = new Date((cluster.start.getTime() + cluster.end.getTime() / 2));
-        //tli.end = cluster.end;
-        tli.content = content;
-        //tli.style = "background-color: " + color + ";";
-        this.tlis.push(tli);
-      }
+        hasContent = true;
 
+      }
+      let tli:VisTimelineItem = {} as VisTimelineItem;
+      tli.id = this.tlis.length +1;
+      tli.start = new Date((cluster.start.getTime() + cluster.end.getTime() / 2));
+      //tli.end = cluster.end;
+      tli.content = content;
+      //tli.style = "background-color: " + color + ";";
+      this.tlis.push(tli);
 
     }
     this.timelineItems = new VisTimelineItems(this.tlis);
