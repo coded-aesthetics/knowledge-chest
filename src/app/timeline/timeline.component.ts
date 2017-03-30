@@ -193,7 +193,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
           }
         }
         if (!curCluster.skills[event.skill.name]) {
-          curCluster.skills[event.skill.name] = {};
+          curCluster.skills[event.skill.name] = {skill:event.skill};
         }
         let curSkills = curCluster.skills[event.skill.name];
         if (event.type == "SkillHour") {
@@ -226,7 +226,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
         if (hasContent) {
           content += "<br/>";
         }
-        content += key + ": ";
+        content += "<strong style='color:"+cur.skill.color+";'>"+key + "</strong>: ";
         let hasHours = false;
         if (cur.hours !== undefined) {
           content += cur.hours + " h";

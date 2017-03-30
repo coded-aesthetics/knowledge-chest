@@ -51,7 +51,7 @@ body .knowledge-chest .delete-cross {
 
 /* TODO: this is hacky!! */
 .project-detail-page .skill-section .skill-list {
-  height: calc(100vh - 66px);
+  height: calc(100vh - 255px);
 }
 
 .knowledge-chest .modal-content {
@@ -82,7 +82,7 @@ body .knowledge-chest .delete-cross {
 }
 
 .knowledge-chest .skill-detail-page .project-list-container {
-  height: calc(100vh - 70px);
+  /*height: calc(100vh - 70px);*/
 }
 
 .calendar .cal-month-view .cal-cell-top {

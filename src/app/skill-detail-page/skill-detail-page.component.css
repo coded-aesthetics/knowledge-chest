@@ -3,8 +3,12 @@
   float:left;
 }
 
+.skill-detail-section {
+  height:calc(100vh - 255px);
+}
+
 .project-section {
   width:30%;
   float:left;
-  height:calc(100vh - 70px);
+  height:calc(100vh - 255px);
 }
