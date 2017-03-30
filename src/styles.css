@@ -54,6 +54,12 @@ body .knowledge-chest .delete-cross {
   height: calc(100vh - 255px);
 }
 
+.knowledge-chest .vis-item {
+  border-color: #d0d0d0;
+  border-width: 1px;
+  background-color: #f8f8f8;
+}
+
 .knowledge-chest .modal-content {
  border-radius: 0;
 }
