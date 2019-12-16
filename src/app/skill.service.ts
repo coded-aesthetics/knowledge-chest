@@ -54,7 +54,7 @@ export class SkillService {
   }
 
   fetchSkills(): Observable<Hal> {
-    return this.http.get(environment.serverRoot+"/skills",{ withCredentials: true })
+    return this.http.get(environment.serverRoot+"/skills?page=0&size=2000",{ withCredentials: true })
       .map((data) => {
         var d = data.json();
         if (d._embedded) {

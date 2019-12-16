@@ -2,3 +2,6 @@
   margin:5px;
   margin-top:10px;
 }
+.task-list__add-project {
+  display: flex;
+}

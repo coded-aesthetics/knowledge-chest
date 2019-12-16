@@ -2,11 +2,16 @@
   padding: 5px;
   padding-bottom:7px;
   margin-right: 10px;
+  display: flex;
 }
 
 .skill-list-headline__headline {
   font-size: 22px;
   font-family: 'EB Garamond', serif;
+}
+
+.skill-list-headline__add-project {
+  display: flex;
 }
 
 .skill-list-container {
