@@ -67,6 +67,13 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.deleteTaskEE.emit(this.task);
   }
 
+  toggleDone() {
+    this.task.done = !this.task.done
+    this.taskService.updateTask(this.task).subscribe(x => {
+      console.log('done')
+    })
+  }
+
   openLogModal() {
     this.showModal=true;
   }

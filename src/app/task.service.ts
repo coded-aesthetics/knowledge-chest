@@ -68,8 +68,16 @@ export class TaskService {
   addTask(project:Project, task:any): Observable<any> {
     var h:Headers = new Headers({"Content-Type":'application/json'});
     var options:RequestOptions = new RequestOptions( { headers: h, withCredentials: true } );
-    let t = {name:task.name,done:false,project_id:project.id};
+    let t = {name:task.name,done:false,project:project._links.self.href};
     return this.http.post(environment.serverRoot+"/tasks", JSON.stringify(t), options)
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  updateTask(task:any): Observable<any> {
+    var h:Headers = new Headers({"Content-Type":'application/json'});
+    var options:RequestOptions = new RequestOptions( { headers: h, withCredentials: true } );
+    let t = {name:task.name,done:task.done};
+    return this.http.put(environment.serverRoot+"/tasks/"+task.id, JSON.stringify(t), options)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 

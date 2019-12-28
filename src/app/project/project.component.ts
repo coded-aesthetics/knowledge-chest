@@ -26,6 +26,24 @@ export class ProjectComponent extends ArticleModalListener implements OnInit {
     super(skillService, articleService);
   }
 
+  get tasks() {
+    return this.project.getEmbedded('tasks').sort((a, b) => {
+      if ( a.done ) {
+        return 1
+      }
+      if ( b.done ) {
+        return -1
+      }
+      if ( a.name.toLowerCase() < b.name.toLowerCase()  ){
+        return -1;
+      }
+      if ( a.name.toLowerCase()  > b.name.toLowerCase()  ){
+        return 1;
+      }
+      return 0;
+    })
+  }
+
   ngOnInit(): void {
   }
 

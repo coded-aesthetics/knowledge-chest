@@ -4,6 +4,7 @@
   </div>
   <div class="task__icons ib">
     <!--span class="delete-cross" (click)="deleteTask()" class="function-icon glyphicon glyphicon-trash cp fr"></span-->
+    <span (click)="toggleDone()" class="function-icon cp fr"><input type="checkbox" [checked]="task.done"></span>
     <span (click)="openLogModal()" class="function-icon glyphicon glyphicon-time cp fr"></span>
     <span (click)="openArticleModal()" class="function-icon glyphicon glyphicon-pencil cp fr"></span>
   </div>

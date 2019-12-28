@@ -158,12 +158,13 @@ export class TimelineComponent implements OnInit, AfterViewInit {
     events.sort((e1, e2) => {
       return e1.start.getTime()-e2.start.getTime();
     });
+
     let clusters = [];
     if (events.length > 0) {
       let minDate = events[0].start.getTime();
       let maxDate = events[events.length - 1].start.getTime();
       let curClusterStartDate = minDate;
-      let curClusterEndDate = curClusterStartDate + 1000 * 60 * 60 * 24;
+      let curClusterEndDate = curClusterStartDate + 1000 * 60 * 60 * 240;
       let curCluster = {
         eventCount: 0,
         start: new Date(curClusterStartDate),
@@ -173,9 +174,9 @@ export class TimelineComponent implements OnInit, AfterViewInit {
 
       for (let event of events) {
         let t = event.start.getTime();
-        if (t > curClusterEndDate) {
+        if (t > curClusterEndDate || (this.filterSkill && (this.filterSkill.id != event.skill.id))) {
           curClusterStartDate = curClusterEndDate;
-          curClusterEndDate = curClusterStartDate + 1000 * 60 * 60 * 24;
+          curClusterEndDate = curClusterStartDate + 1000 * 60 * 60 * 240;
 
           if (curCluster.eventCount > 0) {
             clusters.push(curCluster);
